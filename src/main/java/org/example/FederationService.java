@@ -56,8 +56,10 @@ public class FederationService {
     }
 
     private <T> Supplier<Optional<T>> federationQuerySupplier(GraphQLQueryRequest graphQLQueryRequest, Class<T> clazz, String query) {
+        System.out.println("Printing cuurent otel context: 1 : " + io.opentelemetry.context.Context.current());
         return () -> {
             GraphQLResponse response = customGraphQLClient.executeQuery(graphQLQueryRequest.serialize());
+            System.out.println("Printing cuurent otel context: 2 : " + io.opentelemetry.context.Context.current());
             if (response.getData().isEmpty()) {
                 throw new RuntimeException("[FederationClient] Empty Data. Request failed for query: " + query);
             }
